@@ -88,8 +88,8 @@ io.on("connection", socket => {
         console.log(err);
       }
       if (data) {
-        io.emit(data.from, data);
-        io.emit(data.to, data);
+        channel = data.from + "-" + data.to;
+        io.emit(channel, data);
         console.log(data);
       }
     });
