@@ -101,7 +101,8 @@ io.on("connection", socket => {
 
 
   socket.on("deleted", message => {
-    message.isDeleted = true;
+    var Opted = message.Option;
+    message.Opted = true;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
         channel = message.from + "-" + message.to;
