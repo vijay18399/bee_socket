@@ -75,7 +75,7 @@ io.on("connection", socket => {
    // message = JSON.parse(message);
     var x = sentiment.analyze(message.message);
     console.log(message.isBan);
-    if(x.score > 10){
+    if(x.score < -15){
       message.isBan = true;
       console.log(message.isBan);
     }
