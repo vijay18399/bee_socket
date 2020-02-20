@@ -64,12 +64,14 @@ io.on("connection", socket => {
   socket.on("typing", message => {
     channel = message.from + "-" + message.to;
     message.isTyping = true ;
+    message.isMessage = false;
         io.emit(channel, message);
         console.log(message);
   });
   socket.on("ntyping", message => {
     channel = message.from + "-" + message.to;
     message.isnTyping = true ;
+    message.isMessage = false;
         io.emit(channel, message);
         console.log(message);
   });
@@ -83,6 +85,7 @@ io.on("connection", socket => {
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
         channel = message.from + "-" + message.to;
+        message.isMessage = false;
         io.emit(channel, message);
         console.log(message);
       }
@@ -102,6 +105,7 @@ io.on("connection", socket => {
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
         channel = message.from + "-" + message.to;
+        message.isMessage = false;
         io.emit(channel, message);
         console.log(message);
       }
@@ -114,12 +118,13 @@ io.on("connection", socket => {
     });
    
   });
+  
 
   socket.on("send-message", message => {
     console.log(message);
     console.log(typeof message);
    // message = JSON.parse(message);
-     message.isMessage=true;
+  
     var x = sentiment.analyze(message.message);
     console.log(message.isBan);
     if(x.score < -15){
@@ -128,6 +133,7 @@ io.on("connection", socket => {
     }
     console.log(message.isBan);
     message.score = x.score;
+    message.isMessage = true;
     message.spamcheck = spamcheck.detect(message.message);
     // message.message.replace(/(https?:\/\/[^\s]+)/g,"<a href='$1'  >$1</a>")
     message.createdAt = new Date();
@@ -139,9 +145,12 @@ io.on("connection", socket => {
         console.log(err);
       }
       if (data) {
+     
+        console.log(data)
+        data.isMessage = true;
         channel = data.from + "-" + data.to;
+        console.log(channel,data)
         io.emit(channel, data);
-        console.log(data);
       }
     });
   });
