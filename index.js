@@ -61,18 +61,65 @@ io.on("connection", socket => {
     console.log(data);
     io.emit("logined", data);
   });
-  socket.on("typing", data => {
-    console.log(data);
-    io.emit("typing", data);
+  socket.on("typing", message => {
+    channel = data.from + "-" + data.to;
+    message.isTyping = true ;
+        io.emit(channel, message);
+        console.log(message);
   });
+  socket.on("ntyping", message => {
+    channel = data.from + "-" + data.to;
+    message.isnTyping = true ;
+        io.emit(channel, message);
+        console.log(message);
+  });
+
   socket.on("signup", data => {
     io.emit("new_user", data);
+  });
+
+  socket.on("tagged", message => {
+    message.isTagged = true;
+    Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
+      if(data){
+        channel = message.from + "-" + message.to;
+        io.emit(channel, message);
+        console.log(message);
+      }
+      if (err) {
+        channel = message.from + "-" + message.to;
+        message.failed= true;
+        io.emit(channel, data);
+        console.log(data);
+      }
+    });
+   
+  });
+
+
+  socket.on("deleted", message => {
+    message.isDeleted = true;
+    Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
+      if(data){
+        channel = message.from + "-" + message.to;
+        io.emit(channel, message);
+        console.log(message);
+      }
+      if (err) {
+        channel = message.from + "-" + message.to;
+        message.failed= true;
+        io.emit(channel, data);
+        console.log(data);
+      }
+    });
+   
   });
 
   socket.on("send-message", message => {
     console.log(message);
     console.log(typeof message);
    // message = JSON.parse(message);
+     message.isMessage=true;
     var x = sentiment.analyze(message.message);
     console.log(message.isBan);
     if(x.score < -15){

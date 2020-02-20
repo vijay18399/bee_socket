@@ -15,6 +15,6 @@ var MessageSchema = new Schema({
   isTagged: { type: Boolean, default: false },
   TagName :String,
   original: String,
-  isdeleted: { type: Boolean, default: false }
+  isDeleted: { type: Boolean, default: false }
 });
 module.exports = mongoose.model('Message', MessageSchema);
