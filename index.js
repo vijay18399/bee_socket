@@ -82,17 +82,23 @@ io.on("connection", socket => {
 
   socket.on("tagged", message => {
     message.isTagged = true;
+    console.log(message.index);
+    index=message.index;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
         channel = message.from + "-" + message.to;
         message.isMessage = false;
+        message.index=index;
         io.emit(channel, message);
         console.log(message);
       }
       if (err) {
+        message.isTagged = false;
         channel = message.from + "-" + message.to;
-        message.failed= true;
-        io.emit(channel, data);
+        message.OperationStatus= false;
+        message.index=index;
+        message.OperationName= "Taging Failed";
+        io.emit(channel, message);
         console.log(data);
       }
     });
@@ -103,17 +109,23 @@ io.on("connection", socket => {
   socket.on("deleted", message => {
     var Opted = message.Option;
     message.Opted = true;
+    console.log(message.index);
+    index=message.index;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
         channel = message.from + "-" + message.to;
         message.isMessage = false;
+        message.OperationStatus= true;
+        message.index=index;
         io.emit(channel, message);
         console.log(message);
       }
       if (err) {
         channel = message.from + "-" + message.to;
-        message.failed= true;
-        io.emit(channel, data);
+        message.OperationStatus= false;
+        message.index=index;
+        message.OperationName= "Deleting Failed";
+        io.emit(channel, message);
         console.log(data);
       }
     });
