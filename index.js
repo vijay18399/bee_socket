@@ -74,14 +74,18 @@ io.on("connection", socket => {
     console.log(typeof message);
    // message = JSON.parse(message);
     var x = sentiment.analyze(message.message);
+    console.log(message.isBan);
+    if(x.score > 10){
+      message.isBan = true;
+      console.log(message.isBan);
+    }
+    console.log(message.isBan);
     message.score = x.score;
     message.spamcheck = spamcheck.detect(message.message);
     // message.message.replace(/(https?:\/\/[^\s]+)/g,"<a href='$1'  >$1</a>")
     message.createdAt = new Date();
     //message.message = replace_content(message.message);
-    if(message.score > 10){
-      message.isBan=true;
-    }
+    console.log(message);
     let newMessage = Message(message);
     newMessage.save(function(err, data) {
       if (err) {
