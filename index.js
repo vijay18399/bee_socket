@@ -62,13 +62,13 @@ io.on("connection", socket => {
     io.emit("logined", data);
   });
   socket.on("typing", message => {
-    channel = data.from + "-" + data.to;
+    channel = message.from + "-" + message.to;
     message.isTyping = true ;
         io.emit(channel, message);
         console.log(message);
   });
   socket.on("ntyping", message => {
-    channel = data.from + "-" + data.to;
+    channel = message.from + "-" + message.to;
     message.isnTyping = true ;
         io.emit(channel, message);
         console.log(message);
