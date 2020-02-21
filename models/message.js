@@ -15,6 +15,7 @@ var MessageSchema = new Schema({
   isTagged: { type: Boolean, default: false },
   TagName :String,
   original: String,
+  type: String,
   isDeletedForAll: { type: Boolean, default: false },
   isDeletedByMe: { type: Boolean, default: false },
   isDeletedByYou: { type: Boolean, default: false },
