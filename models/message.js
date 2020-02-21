@@ -12,6 +12,7 @@ var MessageSchema = new Schema({
   isfile: { type: Boolean, default: false },
   ext: String,
   file: String,
+  mimetype:String,
   isTagged: { type: Boolean, default: false },
   TagName :String,
   original: String,
