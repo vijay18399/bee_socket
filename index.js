@@ -107,16 +107,20 @@ io.on("connection", socket => {
 
 
   socket.on("deleted", message => {
+    console.log(message);
     var Opted = message.Option;
-    message.Opted = true;
+    message[Opted] = true;
+    console.log(message);
     console.log(message.index);
     index=message.index;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
+        console.log(data);
         channel = message.from + "-" + message.to;
         message.isMessage = false;
         message.OperationStatus= true;
         message.index=index;
+        console.log(message);
         io.emit(channel, message);
         console.log(message);
       }
