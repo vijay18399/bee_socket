@@ -65,6 +65,7 @@ io.on("connection", socket => {
     channel = message.from + "-" + message.to;
     message.isTyping = true ;
     message.isMessage = false;
+    message.isDeleted=false;
         io.emit(channel, message);
         console.log(message);
   });
@@ -72,6 +73,7 @@ io.on("connection", socket => {
     channel = message.from + "-" + message.to;
     message.isnTyping = true ;
     message.isMessage = false;
+    message.isDeleted=false;
         io.emit(channel, message);
         console.log(message);
   });
@@ -88,6 +90,7 @@ io.on("connection", socket => {
       if(data){
         channel = message.from + "-" + message.to;
         message.isMessage = false;
+        message.isDeleted=false;
         message.index=index;
         io.emit(channel, message);
         console.log(message);
@@ -120,6 +123,7 @@ io.on("connection", socket => {
         message.isMessage = false;
         message.OperationStatus= true;
         message.index=index;
+        message.isDeleted=true;
         console.log(message);
         io.emit(channel, message);
         console.log(message);
