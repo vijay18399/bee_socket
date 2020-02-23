@@ -78,6 +78,7 @@ io.on("connection", socket => {
 
 
   socket.on("seen", message => {
+   if(!message.isSeen){
     message.isSeen = true;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
@@ -89,6 +90,7 @@ io.on("connection", socket => {
         console.log(err);
       }
     });
+   }
    
   });
   socket.on("downloaded", message => {
