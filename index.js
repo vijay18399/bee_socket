@@ -82,6 +82,43 @@ io.on("connection", socket => {
     io.emit("new_user", data);
   });
 
+
+  socket.on("seen", message => {
+    message.isSeen = true;
+    Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
+      if(data){
+        channel = message.from + "-" + message.to;
+        message.isMessage = false;
+        message.isDeleted=false;
+        message.isTagged=false;
+        io.emit(channel, message);
+        console.log(message);
+      }
+      if (err) {
+        console.log(err);
+      }
+    });
+   
+  });
+  socket.on("downloaded", message => {
+    message.isDownloaded = true;
+    Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
+      if(data){
+        channel = message.from + "-" + message.to;
+        message.isMessage = false;
+        message.isDeleted=false;
+        message.isTagged=false;
+        message.isSeen = false;
+        io.emit(channel, message);
+        console.log(message);
+      }
+      if (err) {
+        console.log(err);
+      }
+    });
+   
+  });
+
   socket.on("tagged", message => {
     message.isTagged = true;
     console.log(message.index);

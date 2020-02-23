@@ -20,6 +20,10 @@ var MessageSchema = new Schema({
   isDeletedForAll: { type: Boolean, default: false },
   isDeletedByMe: { type: Boolean, default: false },
   isDeletedByYou: { type: Boolean, default: false },
+  isDownloaded:{ type: Boolean, default: false },
+  isSeen: { type: Boolean, default: false },
+  myloc: String,
+  urloc: String,
   isMessage:Boolean
 });
 module.exports = mongoose.model('Message', MessageSchema);
