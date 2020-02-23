@@ -62,20 +62,12 @@ io.on("connection", socket => {
     io.emit("logined", data);
   });
   socket.on("typing", message => {
-    channel = message.from + "-" + message.to;
-    message.isTyping = true ;
-    message.isMessage = false;
-    message.isDeleted=false;
-    message.isSeen = false;
+    channel = message.from + "T" + message.to;
         io.emit(channel, message);
         console.log(message);
   });
   socket.on("ntyping", message => {
-    channel = message.from + "-" + message.to;
-    message.isnTyping = true ;
-    message.isMessage = false;
-    message.isDeleted=false;
-    message.isSeen = false;
+    channel = message.from + "NT" + message.to;
         io.emit(channel, message);
         console.log(message);
   });
@@ -89,10 +81,7 @@ io.on("connection", socket => {
     message.isSeen = true;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
-        channel = message.from + "-" + message.to;
-        message.isMessage = false;
-        message.isDeleted=false;
-        message.isTagged=false;
+        channel = message.from + "s" + message.to;
         io.emit(channel, message);
         console.log(message);
       }
@@ -106,11 +95,7 @@ io.on("connection", socket => {
     message.isDownloaded = true;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
-        channel = message.from + "-" + message.to;
-        message.isMessage = false;
-        message.isDeleted=false;
-        message.isTagged=false;
-        message.isSeen = false;
+        channel = message.from + "D" + message.to;
         io.emit(channel, message);
         console.log(message);
       }
@@ -127,22 +112,13 @@ io.on("connection", socket => {
     index=message.index;
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
-        channel = message.from + "-" + message.to;
-        message.isMessage = false;
-        message.isDeleted=false;
+        channel = message.from + "t" + message.to;
         message.index=index;
-        message.isSeen = false;
         io.emit(channel, message);
         console.log(message);
       }
       if (err) {
-        message.isTagged = false;
-        channel = message.from + "-" + message.to;
-        message.OperationStatus= false;
-        message.index=index;
-        message.OperationName= "Taging Failed";
-        io.emit(channel, message);
-        console.log(data);
+        console.log(err);
       }
     });
    
@@ -159,23 +135,13 @@ io.on("connection", socket => {
     Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
       if(data){
         console.log(data);
-        channel = message.from + "-" + message.to;
-        message.isMessage = false;
-        message.OperationStatus= true;
+        channel = message.from + "d" + message.to;
         message.index=index;
-        message.isDeleted=true;
-        message.isSeen = false;
-        console.log(message);
         io.emit(channel, message);
         console.log(message);
       }
       if (err) {
-        channel = message.from + "-" + message.to;
-        message.OperationStatus= false;
-        message.index=index;
-        message.OperationName= "Deleting Failed";
-        io.emit(channel, message);
-        console.log(data);
+        console.log(err);
       }
     });
    
@@ -207,11 +173,7 @@ io.on("connection", socket => {
         console.log(err);
       }
       if (data) {
-     
-        console.log(data)
-        data.isMessage = true;
         channel = data.from + "-" + data.to;
-        data.isSeen = false;
         console.log(channel,data)
         io.emit(channel, data);
       }
