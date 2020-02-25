@@ -148,6 +148,18 @@ io.on("connection", socket => {
     });
    
   });
+  socket.on("voted", message => {
+    Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
+      if(data){
+        channel = message.groupid+'voted';
+        io.emit(channel, message);
+      }
+      if (err) {
+        console.log(err);
+      }
+    });
+   
+  });
   socket.on("gtagged", message => {
     message.isTagged = true;
     console.log(message.index);
