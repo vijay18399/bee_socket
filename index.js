@@ -157,7 +157,7 @@ io.on("connection", socket => {
   
     var x = sentiment.analyze(message.message);
     console.log(message.isBan);
-    if(x.score < -15){
+    if(x.score < -5){
       message.isBan = true;
       console.log(message.isBan);
     }
@@ -189,7 +189,7 @@ io.on("connection", socket => {
     message.spamcheck = spamcheck.detect(message.message);
     message.createdAt = new Date();
     //message.message = replace_content(message.message);
-    if(message.score > 10){
+    if(message.score < -5){
       message.isBan=true;
     }
     let newMessage = Message(message);
@@ -199,7 +199,7 @@ io.on("connection", socket => {
       }
       if (data) {
         console.log(data);
-        io.emit("message_in_group", data);
+        io.emit(data.groupid, data);
       }
     });
   });
