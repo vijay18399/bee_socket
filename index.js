@@ -148,8 +148,28 @@ io.on("connection", socket => {
     });
    
   });
+  socket.on("gdeleted", message => {
+    console.log(message);
+    var Opted = message.Option;
+    message[Opted] = true;
+    console.log(message);
+    console.log(message.index);
+    index=message.index;
+    Message.updateOne({ _id : { $eq: message._id } }, message, (err, data) => {
+      if(data){
+        console.log(data);
+        channel = 'gdeleted'+message.from;
+        message.index=index;
+        io.emit(channel, message);
+        console.log(message);
+      }
+      if (err) {
+        console.log(err);
+      }
+    });
+   
+  });
   
-
   socket.on("send-message", message => {
     console.log(message);
     console.log(typeof message);
