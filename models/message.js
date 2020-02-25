@@ -6,6 +6,7 @@ var MessageSchema = new Schema({
   message: String,
   score: Number,
   spamcheck: String,
+  name :String,
   createdAt: Date,
   groupid:String,
   isBan: { type: Boolean, default: false },
