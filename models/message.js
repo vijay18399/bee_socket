@@ -23,6 +23,7 @@ var MessageSchema = new Schema({
   isDeletedByYou: { type: Boolean, default: false },
   isDownloaded:{ type: Boolean, default: false },
   isSeen: { type: Boolean, default: false },
+  isForm: { type: Boolean, default: false },
   myloc: String,
   urloc: String,
   isMessage:Boolean,
