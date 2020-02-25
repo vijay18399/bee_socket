@@ -25,6 +25,8 @@ var MessageSchema = new Schema({
   isSeen: { type: Boolean, default: false },
   myloc: String,
   urloc: String,
-  isMessage:Boolean
+  isMessage:Boolean,
+  question:String,
+  options:Array
 });
 module.exports = mongoose.model('Message', MessageSchema);
