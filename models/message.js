@@ -27,6 +27,7 @@ var MessageSchema = new Schema({
   urloc: String,
   isMessage:Boolean,
   question:String,
-  options:Array
+  options:Array,
+  voters:Array
 });
 module.exports = mongoose.model('Message', MessageSchema);
