@@ -5,7 +5,6 @@ var MessageSchema = new Schema({
   from: String,
   message: String,
   score: Number,
-  spamcheck: String,
   name :String,
   createdAt: Date,
   groupid:String,

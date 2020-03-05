@@ -214,7 +214,7 @@ io.on("connection", socket => {
     console.log(message.isBan);
     message.score = x.score;
     message.isMessage = true;
-    message.spamcheck = spamcheck.detect(message.message);
+    //message.spamcheck = spamcheck.detect(message.message);
     // message.message.replace(/(https?:\/\/[^\s]+)/g,"<a href='$1'  >$1</a>")
     message.createdAt = new Date();
     //message.message = replace_content(message.message);
@@ -236,7 +236,7 @@ io.on("connection", socket => {
     console.log(message);
     var x = sentiment.analyze(message.message);
     message.score = x.score;
-    message.spamcheck = spamcheck.detect(message.message);
+   // message.spamcheck = spamcheck.detect(message.message);
     message.createdAt = new Date();
     //message.message = replace_content(message.message);
     if(message.score < -5){
