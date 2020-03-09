@@ -228,6 +228,7 @@ io.on("connection", socket => {
         channel = data.from + "-" + data.to;
         console.log(channel,data)
         io.emit(channel, data);
+        io.emit(data.to, data);
       }
     });
   });
