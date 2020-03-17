@@ -187,8 +187,9 @@ io.on("connection", socket => {
       if(data){
         console.log(data);
         channel = 'gdeleted'+message.groupid;
-        io.emit(channel, message);
         console.log(message);
+        io.emit(channel, message);
+        
       }
       if (err) {
         console.log(err);
